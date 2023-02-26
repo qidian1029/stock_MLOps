@@ -1,0 +1,14 @@
+python 3.8
+pyqlib 
+numpy
+pandas
+scipy
+request
+pytorch
+cython
+cmake
+scikit-learn
+transformers
+catboost
+xgboost
+lightgbm

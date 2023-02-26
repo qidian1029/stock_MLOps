@@ -1,0 +1,16 @@
+artifact_uri: file:C:\Users\is_li\Desktop\paper\github\mlruns/1/4ae5a04c6c474646850f31e591f28977/artifacts
+deleted_time: null
+end_time: null
+entry_point_name: ''
+experiment_id: '1'
+lifecycle_stage: active
+name: ''
+run_id: 4ae5a04c6c474646850f31e591f28977
+run_uuid: 4ae5a04c6c474646850f31e591f28977
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1677380323777
+status: 1
+tags: []
+user_id: is_li
