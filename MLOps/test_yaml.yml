@@ -1,0 +1,17 @@
+# test.yaml
+default_artifact_root: file:///path/to/artifacts
+tracking_uri: http://localhost:5000
+
+experiment:
+  name: "My Experiment"
+  artifact_location: "/my/experiment/artifacts"
+
+run:
+  parameters:
+    alpha: 0.5
+  tags:
+    my-tag: "tag-value"
+
+model:
+  name: "My Model"
+  artifact_location: "/my/model/artifacts"

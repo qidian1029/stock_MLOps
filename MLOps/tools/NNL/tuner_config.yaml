@@ -1,0 +1,27 @@
+tuner:
+  # 调节器名称
+  className: TPE
+  # 超参搜索算法参数
+  config:
+    # 超参范围
+    search_space:
+      lr:
+        _type: uniform
+        _value: [0.001, 0.1]
+      batch_size:
+        _type: choice
+        _value: [16, 32, 64]
+      dropout:
+        _type: uniform
+        _value: [0.1, 0.5]
+    # 初始采样数
+    bracket_initial_sample_size: 3
+    # 并行搜索的最大并发数
+    bracket_max_parallel: 3
+  # 是否启用自适应功能（ASHA）
+  enable_asha: true
+  # 超参搜索的策略
+  search_strategy:
+    _name: BatchTuner
+    # 每批次搜索的超参组数
+    batch_size: 1

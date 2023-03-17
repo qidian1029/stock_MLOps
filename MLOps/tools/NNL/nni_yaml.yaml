@@ -1,0 +1,67 @@
+# nni.yaml
+
+authorName: your_name
+experimentName: lstm_hyperparameter_tuning
+
+trialConcurrency: 1
+maxExecDuration: 1h
+maxTrialNum: 20
+trainingServicePlatform: local
+
+searchSpacePath: search_space.json
+trialCommand: python lstm_nni.py
+
+tuner:
+  builtinTunerName: TPE
+  classArgs:
+    optimize_mode: maximize
+
+assessor:
+  builtinAssessorName: Medianstop
+  classArgs:
+    evaluation_interval: 1
+    median: 0.9
+
+# 这里需要替换为你自己的地址
+logDir: /path/to/log/dir
+
+
+# nni_config.yml
+authorName: "Your Name"
+# 作者名字
+experimentName: "Model Hyperparameter Tuning"
+# 实验名称
+trialConcurrency: 2 # Number of trials to run concurrently
+# 并发运行的试验数
+maxExecDuration: 1h # Maximum time to run the experiment
+# 实验的最大执行时间
+maxTrialNum: 20 # Maximum number of trials to run
+# 实验的最大试验次数
+searchSpacePath: search_space.json # Path to the search space file
+#  搜索空间文件的路径，定义超参数搜索空间
+trialCommand: python train.py --lr $lr --batch_size $batch_size --dropout $dropout # Command to run each trial
+# 每个试验运行的命令，包括待调节的超参数
+tuner:
+# 超参数优化的调节器配置
+  className: TPE # Name of the tuner class to use
+# 调节器类的名称，如TPE
+  maxExecTrailNum: 5 # Maximum number of trials to run for each tuner execution
+# 每个调节器执行的最大试验数
+  configPath: tuner_config.yml # Path to the tuner config file
+# 调节器的配置文件路径
+  gpuIndices: [0, 1] # GPU indices to use for tuning
+# 进行调节的GPU的索引
+assessor:
+# 用于评估试验的指标和终止条件的配置
+  className: Medianstop # Name of the assessor class to use
+# 评估器类的名称，如Medianstop
+  threshold: 0.9 # Threshold for median stopping rule
+# 评估器的阈值，超过该阈值将终止试验
+  startStep: 0 # Start step for median stopping rule
+# 评估器的起始步骤
+  trainingService:
+#  训练服务的配置
+    useActiveGpu: true # Use active GPU for tuning
+# 是否使用当前活跃的GPU进行训练
+    gpuIndices: [0, 1] # GPU indices to use for tuning
+# 训练使用的GPU的索引

@@ -1,0 +1,124 @@
+# dvc.yaml
+
+#数据训练过程
+stages:
+  preprocess:
+  #数据预处理过程
+    cmd: python preprocess.py
+    deps:
+      - data/raw_data.csv
+    outs:
+      - data/processed_data.csv
+  train:
+  #模型训练过程
+    cmd: python train.py
+    deps:
+      - data/processed_data.csv
+    outs:
+      - model/model.pth
+  evaluate:
+  # 模型评估过程
+    cmd: python evaluate.py
+    deps:
+      - model/model.pth
+      - data/processed_data.csv
+    outs:
+      - result/metrics.json
+# dvc.yaml
+
+# 定义数据输入路径
+data:
+  input: "data/dataset.csv"
+
+
+# 定义数据处理命令，包括数据预处理和特征工程
+commands:
+  preprocess:
+    cmd: "python preprocess.py data/dataset.csv processed_data"
+    deps:
+      - data/dataset.csv
+    outs:
+      - processed_data/train_feat.npy
+      - processed_data/train_target.npy
+      - processed_data/test_feat.npy
+      - processed_data/test_target.npy
+
+# 定义模型训练命令
+stages:
+  train:
+    cmd: "python train.py processed_data -o models/lstm.pth"
+    deps:
+      - processed_data/train_feat.npy
+      - processed_data/train_target.npy
+    outs:
+      - models/lstm.pth
+
+# 定义评估命令
+  evaluate:
+    cmd: "python evaluate.py models/lstm.pth processed_data/test_feat.npy processed_data/test_target.npy -o results"
+    deps:
+      - models/lstm.pth
+      - processed_data/test_feat.npy
+      - processed_data/test_target.npy
+    outs:
+      - results/metrics.json
+
+# DVC.yaml
+
+# 配置 DVC 数据库
+workspace: ./data
+cache:
+  dir: .dvc/cache
+
+# 数据分析阶段
+stages:
+  prepare_data:
+    cmd: python data_prep.py
+    deps:
+      - data_prep.py
+    outs:
+      - data/raw_data.csv
+      - data/processed_data.csv
+
+  data_visualization:
+    cmd: python data_viz.py
+    deps:
+      - data/raw_data.csv
+    outs:
+      - images/data_viz.png
+
+# 版本控制阶段
+data:
+  - data/raw_data.csv
+  - data/processed_data.csv
+
+models:
+  lstm_model:
+    cmd: python lstm_model.py
+    deps:
+      - lstm_model.py
+      - data/processed_data.csv
+    metrics:
+      - loss
+    params:
+      - hidden_dim
+      - num_layers
+      - learning_rate
+    hyperparams:
+      hidden_dim:
+        type: int
+        min: 2
+        max: 20
+        step: 2
+      num_layers:
+        type: int
+        min: 1
+        max: 3
+        step: 1
+      learning_rate:
+        type: float
+        min: 0.0001
+        max: 0.1
+        step: 0.001
+    file_list:
+      - models/lstm_model.pth

@@ -1,0 +1,52 @@
+# mlflow.yaml
+
+# Configuration for MLflow
+mlflow:
+  # Set the tracking URI to the local file system.
+  tracking_uri: file:///C:/Users/is_li/Desktop/paper/github/stock on MLOps/MLOps/tools/DVC/example/mlruns
+
+  # Set the default experiment name to `stock-price-prediction`
+  default_experiment_name: stock-price-prediction
+
+# Configuration for the `train.py` script
+train:
+  # Define the input data path
+  input_data_path: C:/Users/is_li/Desktop/paper/github/stock on MLOps/MLOps/tools/DVC/example/data/dataset.csv
+
+  # Define the output model path
+  output_model_path: ./model/lstm_stock_prediction.pth
+
+  # Set the batch size for training
+  batch_size: 5
+
+  # Set the number of epochs for training
+  num_epochs: 50
+
+  # Set the learning rate for the optimizer
+  learning_rate: 0.1
+
+  # Define the LSTM model architecture
+  lstm_model:
+    # Set the number of features in the input data
+    input_size: 10
+
+    # Set the number of hidden units in the LSTM layer
+    hidden_size: 2
+
+    # Set the number of LSTM layers
+    num_layers: 2
+
+    # Set the number of output features
+    output_size: 1
+
+  # Define the loss function for training
+  loss_function:
+    name: MSELoss
+    params:
+      reduction: 'mean'
+
+  # Define the optimizer for training
+  optimizer:
+    name: Adam
+    params:
+      lr: 0.1
